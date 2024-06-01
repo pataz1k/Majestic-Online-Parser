@@ -32,3 +32,7 @@ UPDATE_TIME =  #Update Time in ms. Better set > 15000.
 - Sending Discord Embeds in your channels with auto online update
 
 
+
+# Example
+![Example](https://i.yapx.ru/XfjWi.png)
+
