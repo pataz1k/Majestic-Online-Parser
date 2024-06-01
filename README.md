@@ -34,5 +34,5 @@ UPDATE_TIME =  #Update Time in ms. Better set > 15000.
 
 
 # Example
-![Example](https://i.yapx.ru/XfjWi.png)
+![Example](https://i.imgur.com/1q1dTYk.png)
 
