@@ -5,7 +5,7 @@ export const writeMessageIdToJson = (messageId) => {
 	if (checkIsFileCreated()) {
 		const data = JSON.stringify({ messageId })
 		writeFileSync('data.json', data)
-		//* Создание файла
+		
 	}
 }
 
@@ -18,7 +18,7 @@ export const readMessageIdFromJson = async () => {
 			return messageId
 		}
 	} catch (err) {
-		console.error('Ошибка чтения файла:', err)
+		console.log('Ошибка чтения файла:', err)
 		return null
 	}
 }
@@ -29,15 +29,15 @@ const checkIsFileCreated = () => {
 
 		writeFile('data.json', JSON.stringify(fileContent), (err) => {
 			if (err) {
-				console.error('Ошибка', err)
+				console.log('Ошибка', err)
 				return false
 			} else {
-				//* Файл Создан
+				console.log("Файл создан")
 				return true
 			}
 		})
 	} else {
-		//* Файл уже был создан
+		console.log("Файл уже был создан")
 		return true
 	}
 }
