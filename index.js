@@ -5,6 +5,12 @@ import { writeMessageIdToJson, readMessageIdFromJson } from './jsonRequests.js'
 
 const webhookClient = new WebhookClient({
 	url: process.env.DISCORD_WEBHOOK,
+
+})
+
+webhookClient.edit({ 
+	name: process.env.WEBHOOK_NAME,
+	avatar: process.env.WEBHOOK_AVATAR
 })
 
 async function GetServerData() {
@@ -67,6 +73,8 @@ async function GetServerData() {
 			//* ID отсутствует
 			const message = webhookClient.send({
 				embeds: [embed],
+				name: process.env.WEBHOOK_NAME,
+				avatar: process.env.WEBHOOK_AVATAR
 			})
 			message.then((res) => {
 				writeMessageIdToJson(res.id)
