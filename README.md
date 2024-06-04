@@ -23,6 +23,8 @@ Install my project with yarn
 ```
 DISCORD_WEBHOOK = 
 UPDATE_TIME =  #Update Time in ms. Better set > 15000.
+WEBHOOK_NAME = 
+WEBHOOK_AVATAR = #URL for webhook avatar (imgur/discord CDN/yapx)
 
 ```
 
