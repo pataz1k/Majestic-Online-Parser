@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { WebhookClient, EmbedBuilder } from 'discord.js'
 import 'dotenv/config'
+import { writeMessageIdToJson, readMessageIdFromJson } from './jsonRequests.js'
 
 const webhookClient = new WebhookClient({
 	url: process.env.DISCORD_WEBHOOK,
@@ -12,6 +13,9 @@ async function GetServerData() {
 		.setColor(0xe0015b)
 		.setDescription('Актуальный онлайн на серверах Majestic')
 		.setTimestamp()
+		.setFooter({
+			text: 'dev by @pataz1k',
+		})
 
 	await axios
 		.get('https://api1master.majestic-files.com/meta/servers')
@@ -27,7 +31,14 @@ async function GetServerData() {
 			res.data.result.servers.map((server) => {
 				if (server.region == 'ru') {
 					const online =
-						'`' + `Игроков: ${server.players}/${server.queue}` + '`'
+						'`' +
+						`Игроков: ${server.players}/${server.queue}. ` +
+						`Очередь: ${
+							server.players - server.queue > 0
+								? server.players - server.queue
+								: 0
+						}` +
+						'`'
 					embed.addFields({
 						name: `${server.name}   ${
 							server.status ? ':green_circle:' : ':red_circle:'
@@ -41,9 +52,28 @@ async function GetServerData() {
 			console.log(err)
 		})
 
-	webhookClient.editMessage('1246343361799917570', {
-		embeds: [embed],
+	readMessageIdFromJson().then((res) => {
+		if (res) {
+			//* ID присутствует
+				webhookClient.editMessage(res, {
+					embeds: [embed],
+				}).catch(err => {
+					if (err.code == 10008) {
+						writeMessageIdToJson("")
+						GetServerData()
+					}
+				})
+		} else {
+			//* ID отсутствует
+			const message = webhookClient.send({
+				embeds: [embed],
+			})
+			message.then((res) => {
+				writeMessageIdToJson(res.id)
+			})
+		}
 	})
+
 	console.log('updated')
 }
 
