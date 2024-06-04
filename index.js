@@ -5,11 +5,12 @@ import { writeMessageIdToJson, readMessageIdFromJson } from './jsonRequests.js'
 
 const webhookClient = new WebhookClient({
 	url: process.env.DISCORD_WEBHOOK,
+
 })
 
-webhookClient.edit({
+webhookClient.edit({ 
 	name: process.env.WEBHOOK_NAME,
-	avatar: process.env.WEBHOOK_AVATAR,
+	avatar: process.env.WEBHOOK_AVATAR
 })
 
 async function GetServerData() {
@@ -38,9 +39,10 @@ async function GetServerData() {
 					const online =
 						'`' +
 						`Игроков: ${server.players}/${server.queue}. ` +
-						`					${
-							(server.players - server.queue > 0) &
-							('Очередь: ' + server.players - server.queue)
+						`${
+							server.players - server.queue > 0
+								? "Очередь: " + (server.players - server.queue)
+								: ""
 						}` +
 						'`'
 					embed.addFields({
@@ -59,13 +61,11 @@ async function GetServerData() {
 	readMessageIdFromJson().then((res) => {
 		if (res) {
 			//* ID присутствует
-			webhookClient
-				.editMessage(res, {
+				webhookClient.editMessage(res, {
 					embeds: [embed],
-				})
-				.catch((err) => {
+				}).catch(err => {
 					if (err.code == 10008) {
-						writeMessageIdToJson('')
+						writeMessageIdToJson("")
 						GetServerData()
 					}
 				})
@@ -74,7 +74,7 @@ async function GetServerData() {
 			const message = webhookClient.send({
 				embeds: [embed],
 				name: process.env.WEBHOOK_NAME,
-				avatar: process.env.WEBHOOK_AVATAR,
+				avatar: process.env.WEBHOOK_AVATAR
 			})
 			message.then((res) => {
 				writeMessageIdToJson(res.id)
