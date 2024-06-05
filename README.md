@@ -18,13 +18,18 @@ Install my project with yarn
   yarn dev
 ```
     
-## .ENV File config
+## data.json File config
 
-```
-DISCORD_WEBHOOK = 
-UPDATE_TIME =  #Update Time in ms. Better set > 15000.
-WEBHOOK_NAME = 
-WEBHOOK_AVATAR = #URL for webhook avatar (imgur/discord CDN/yapx)
+```json
+{
+  "servers": [ // You can add as many webhooks as you want
+    {
+      "serverName": "", // Server name for you
+      "link": "", // Webhook link
+      "messageId": "" // This field for bot don't touch this
+    }
+  ]
+}
 
 ```
 
